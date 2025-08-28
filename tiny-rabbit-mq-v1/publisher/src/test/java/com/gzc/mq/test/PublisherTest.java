@@ -87,7 +87,17 @@ public class PublisherTest {
             rabbitTemplate.convertAndSend(queueName, message + i);
             Thread.sleep(20);
         }
+    }
 
+    @Test
+    public void testSendMessage_withExchange() throws InterruptedException {
+        String exchangeName = "test.exchange.fanout";
+        String message = "hello, message_";
+        for (int i = 0; i < 1; i++) {
+            // 发送消息
+            rabbitTemplate.convertAndSend(exchangeName, "",message + i);
+            Thread.sleep(20);
+        }
     }
 
 }

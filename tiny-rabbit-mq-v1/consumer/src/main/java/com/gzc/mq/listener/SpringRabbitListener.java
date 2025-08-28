@@ -25,5 +25,15 @@ public class SpringRabbitListener {
 
     }
 
+    @RabbitListener(queues = "test.exchange.fanout.queue1")
+    public void listenFanoutQueue1(String msg){
+        System.out.println("消费者1 接收到fanout消息: " + msg);
+    }
+
+    @RabbitListener(queues = "test.exchange.fanout.queue2")
+    public void listenFanoutQueue2(String msg){
+        System.out.println("消费者2 接收到fanout消息: " + msg);
+    }
+
 
 }
