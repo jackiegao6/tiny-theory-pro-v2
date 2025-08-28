@@ -76,4 +76,18 @@ public class PublisherTest {
 
     }
 
+    @Test
+    public void testSendMessage_withTemplate_tooMuch() throws InterruptedException {
+        // 队列名称
+        String queueName = "simple.test-queue";
+        // 消息
+        String message = "hello, message_";
+        for (int i = 0; i < 50; i++) {
+            // 发送消息
+            rabbitTemplate.convertAndSend(queueName, message + i);
+            Thread.sleep(20);
+        }
+
+    }
+
 }

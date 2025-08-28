@@ -9,4 +9,7 @@ spring:
     virtual-host: /
     username: admin
     password: admin
+    listener:
+      simple:
+        prefetch: 1 # 消费者每次最多只能预取一条消息，当消费完这条消息后，才能获取下一个消息，这样做的好处是消费能力强的消费者，处理的消息就会更多===》能者多劳
 
