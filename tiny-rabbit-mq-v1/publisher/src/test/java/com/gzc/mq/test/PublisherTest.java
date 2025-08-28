@@ -100,6 +100,7 @@ public class PublisherTest {
             Thread.sleep(20);
         }
     }
+
     @Test
     public void testSendMessage_withDirectExchange() throws InterruptedException {
         String exchangeName = "test.exchange.direct";
@@ -116,4 +117,19 @@ public class PublisherTest {
         }
     }
 
+    @Test
+    public void testSendMessage_withTopicExchange() throws InterruptedException {
+        String exchangeName = "test.exchange.topic";
+        String message = "hello, message_";
+
+        Random random = new Random();
+        String[] strings = new String[]{"china.news","china.movie","japan.news"};
+        for (int i = 0; i < 10; i++) {
+            // 发送消息
+            int idx = random.nextInt(3);
+            String key = strings[idx];
+            rabbitTemplate.convertAndSend(exchangeName, key,message + key);
+            Thread.sleep(20);
+        }
+    }
 }
