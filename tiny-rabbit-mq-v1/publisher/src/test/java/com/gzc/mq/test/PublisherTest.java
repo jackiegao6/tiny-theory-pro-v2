@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
 @RunWith(SpringRunner.class)
@@ -90,12 +91,27 @@ public class PublisherTest {
     }
 
     @Test
-    public void testSendMessage_withExchange() throws InterruptedException {
+    public void testSendMessage_withFanoutExchange() throws InterruptedException {
         String exchangeName = "test.exchange.fanout";
         String message = "hello, message_";
         for (int i = 0; i < 1; i++) {
             // 发送消息
             rabbitTemplate.convertAndSend(exchangeName, "",message + i);
+            Thread.sleep(20);
+        }
+    }
+    @Test
+    public void testSendMessage_withDirectExchange() throws InterruptedException {
+        String exchangeName = "test.exchange.direct";
+        String message = "hello, message_";
+
+        Random random = new Random();
+        String[] strings = new String[]{"k1","k2","k3"};
+        for (int i = 0; i < 10; i++) {
+            // 发送消息
+            int idx = random.nextInt(3);
+            String key = strings[idx];
+            rabbitTemplate.convertAndSend(exchangeName, key,message + key);
             Thread.sleep(20);
         }
     }
