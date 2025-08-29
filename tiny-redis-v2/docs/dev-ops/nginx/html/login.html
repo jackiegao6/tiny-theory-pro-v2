@@ -68,6 +68,7 @@
       }
     },
     methods: {
+
       login(){
         if(!this.radio){
           this.$message.error("请先确认阅读用户协议！");
@@ -77,7 +78,7 @@
           this.$message.error("手机号和验证码不能为空！");
           return
         }
-        axios.post("/user/login", this.form)
+        axios.post("http://127.0.0.1:8078/api/v1/hmdp/login/login", this.form)
         .then(({data}) => {
             if(data){
               // 保存用户信息到session
@@ -88,16 +89,18 @@
         })
         .catch(err => this.$message.error(err))
       },
+
       goBack(){
         history.back();
       },
+
       sendCode(){
         if (!this.form.phone) {
           this.$message.error("手机号不能为空");
           return;
         }
         // 发送验证码
-        axios.post("/user/code?phone="+this.form.phone)
+        axios.get("http://127.0.0.1:8078/api/v1/hmdp/login/send-code?phone="+this.form.phone)
           .then(() => {})
           .catch(err => {
             console.log(err);
@@ -106,7 +109,7 @@
         // 禁用按钮
         this.disabled = true;
         // 按钮倒计时
-        let i = 60;
+        let i = 5;
         this.codeBtnMsg = (i--) + '秒后可重发'
         let taskId = setInterval(() => this.codeBtnMsg = (i--) + '秒后可重发', 1000);
         setTimeout(() => {
