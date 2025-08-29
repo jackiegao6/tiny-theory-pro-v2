@@ -12,6 +12,7 @@
         <module>tiny-rabbit-mq-v1</module>
         <module>tiny-rabbit-mq-v1/publisher</module>
         <module>tiny-rabbit-mq-v1/consumer</module>
+        <module>tiny-redis-v2</module>
     </modules>
 
     <repositories>
