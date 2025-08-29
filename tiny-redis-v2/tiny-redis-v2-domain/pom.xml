@@ -15,6 +15,10 @@
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
@@ -42,6 +46,10 @@
         <dependency>
             <groupId>com.gzc</groupId>
             <artifactId>tiny-redis-v2-types</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.gzc</groupId>
+            <artifactId>tiny-redis-v2-api</artifactId>
         </dependency>
     </dependencies>
 
