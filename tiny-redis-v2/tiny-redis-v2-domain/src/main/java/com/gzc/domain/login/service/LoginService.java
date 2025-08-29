@@ -62,8 +62,9 @@ public class LoginService implements ILoginService{
             if (null != password && !password.equals(loginInfoEntityResp.getPassword())){
                 throw new AppException(ResponseCode.WRONG_PASSWORD.getCode(), ResponseCode.WRONG_PASSWORD.getInfo());
             }
+        }else{
+            // 3.2 用户不存在
+            loginRepository.createUser(phone);
         }
-        // 3.2 用户不存在
-        loginRepository.createUser(phone);
     }
 }
