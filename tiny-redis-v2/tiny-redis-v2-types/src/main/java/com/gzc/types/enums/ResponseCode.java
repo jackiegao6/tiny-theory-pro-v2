@@ -13,7 +13,8 @@ public enum ResponseCode {
     UN_ERROR("0001", "未知失败"),
     ILLEGAL_PARAMETER("0002", "非法参数"),
     ILLEGAL_PHONE("0003", "手机号格式错误"),
-    ILLEGAL_CODE("0003", "手机号格式错误"),
+    ILLEGAL_CODE("0004", "手机号格式错误"),
+    WRONG_PASSWORD("0005", "密码错误"),
     ;
 
     private String code;

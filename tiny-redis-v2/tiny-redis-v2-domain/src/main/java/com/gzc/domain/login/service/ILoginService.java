@@ -6,6 +6,6 @@ public interface ILoginService {
 
     String sendCode(String phone);
 
-    Boolean login(LoginInfoEntity loginInfoEntity);
+    void login(LoginInfoEntity loginInfoEntity);
 
 }

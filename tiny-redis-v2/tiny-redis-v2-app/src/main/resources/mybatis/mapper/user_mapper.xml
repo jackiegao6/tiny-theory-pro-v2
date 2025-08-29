@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzc.infrastructure.dao.IUserDao">
+
+    <resultMap id="dataMap" type="com.gzc.infrastructure.dao.po.User">
+        <id column="id" property="id"/>
+        <result column="phone" property="phone"/>
+        <result column="password" property="password"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="icon" property="icon"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="queryUserByPhone" parameterType="java.lang.String" resultMap="dataMap">
+        select phone, password, nick_name
+        from tb_user
+        where phone = #{phone}
+    </select>
+
+    <insert id="createUser" parameterType="java.lang.String">
+        insert into tb_user (phone, create_time, update_time)
+        values(#{phone}, now(), now())
+    </insert>
+
+</mapper>

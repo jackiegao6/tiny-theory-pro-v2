@@ -3,16 +3,20 @@ package com.gzc.domain.login.service;
 
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
+import com.gzc.domain.login.adapter.repository.ILoginRepository;
 import com.gzc.domain.login.model.entity.LoginInfoEntity;
 import com.gzc.types.enums.ResponseCode;
 import com.gzc.types.exception.AppException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class LoginService implements ILoginService{
 
+    private final ILoginRepository loginRepository;
 
     @Override
     public String sendCode(String phone) {
@@ -32,7 +36,7 @@ public class LoginService implements ILoginService{
     }
 
     @Override
-    public Boolean login(LoginInfoEntity loginInfoEntity) {
+    public void login(LoginInfoEntity loginInfoEntity) {
 
         // 1. 校验手机号
         String phone = loginInfoEntity.getPhone();
@@ -51,9 +55,15 @@ public class LoginService implements ILoginService{
         }
 
         // 3. 查询用户是否存在
-
-
-
-        return null;
+        LoginInfoEntity loginInfoEntityResp = loginRepository.existUser(phone);
+        if (null != loginInfoEntityResp){
+            // 3.1 用户存在
+            String password = loginInfoEntity.getPassword();
+            if (null != password && !password.equals(loginInfoEntityResp.getPassword())){
+                throw new AppException(ResponseCode.WRONG_PASSWORD.getCode(), ResponseCode.WRONG_PASSWORD.getInfo());
+            }
+        }
+        // 3.2 用户不存在
+        loginRepository.createUser(phone);
     }
 }

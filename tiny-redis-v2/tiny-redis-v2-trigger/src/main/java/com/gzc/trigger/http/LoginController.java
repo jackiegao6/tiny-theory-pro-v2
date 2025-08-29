@@ -50,8 +50,20 @@ public class LoginController implements ILoginController {
                 .code(loginFormReqDTO.getCode())
                 .password(loginFormReqDTO.getPassword())
                 .build();
-        Boolean isLoginSuccess = loginService.login(loginInfoEntity);
-
+        try {
+            loginService.login(loginInfoEntity);
+        } catch (AppException e) {
+            return Response.<Boolean>builder()
+                    .code(e.getCode())
+                    .info(e.getInfo())
+                    .data(Boolean.FALSE)
+                    .build();
+        }
+        return Response.<Boolean>builder()
+                .code(ResponseCode.SUCCESS.getCode())
+                .info(ResponseCode.SUCCESS.getInfo())
+                .data(Boolean.TRUE)
+                .build();
     }
 
 }
