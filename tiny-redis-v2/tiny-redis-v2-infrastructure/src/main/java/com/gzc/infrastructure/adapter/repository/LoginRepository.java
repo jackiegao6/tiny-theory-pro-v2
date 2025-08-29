@@ -1,5 +1,6 @@
 package com.gzc.infrastructure.adapter.repository;
 
+import cn.hutool.core.util.RandomUtil;
 import com.gzc.domain.login.adapter.repository.ILoginRepository;
 import com.gzc.domain.login.model.entity.LoginInfoEntity;
 import com.gzc.infrastructure.dao.IUserDao;
@@ -28,6 +29,9 @@ public class LoginRepository implements ILoginRepository {
 
     @Override
     public void createUser(String phone) {
-        userDao.createUser(phone);
+        User userReq = new User();
+        userReq.setPhone(phone);
+        userReq.setNickName("用户" + RandomUtil.randomNumbers(6));
+        userDao.createUser(userReq);
     }
 }

@@ -18,9 +18,9 @@
         where phone = #{phone}
     </select>
 
-    <insert id="createUser" parameterType="java.lang.String">
-        insert into tb_user (phone, create_time, update_time)
-        values(#{phone}, now(), now())
+    <insert id="createUser" parameterType="com.gzc.infrastructure.dao.po.User">
+        insert into tb_user (phone, nick_name , create_time, update_time)
+        values(#{phone}, #{nickName}, now(), now())
     </insert>
 
 </mapper>

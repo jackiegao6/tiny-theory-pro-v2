@@ -5,6 +5,7 @@ import com.gzc.api.dto.req.LoginFormReqDTO;
 import com.gzc.api.response.Response;
 import com.gzc.domain.login.model.entity.LoginInfoEntity;
 import com.gzc.domain.login.service.ILoginService;
+import com.gzc.trigger.http.interceptor.UserHolder;
 import com.gzc.types.enums.ResponseCode;
 import com.gzc.types.exception.AppException;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,6 @@ public class LoginController implements ILoginController {
                     .info(e.getInfo())
                     .build();
         }
-        session.setAttribute("code", code);
         return Response.<String>builder()
                 .code(ResponseCode.SUCCESS.getCode())
                 .info(ResponseCode.SUCCESS.getInfo())
@@ -52,6 +52,7 @@ public class LoginController implements ILoginController {
                 .build();
         try {
             loginService.login(loginInfoEntity);
+            session.setAttribute("loginInfo", loginInfoEntity);
         } catch (AppException e) {
             return Response.<Boolean>builder()
                     .code(e.getCode())
@@ -66,4 +67,20 @@ public class LoginController implements ILoginController {
                 .build();
     }
 
+    @RequestMapping(value = "check-login", method = RequestMethod.GET)
+    public Response<Boolean> checkLogin(){
+        LoginInfoEntity loginInfoEntity = UserHolder.getLoginInfoEntity();
+        if (null != loginInfoEntity){
+            return Response.<Boolean>builder()
+                    .code(ResponseCode.SUCCESS.getCode())
+                    .info(ResponseCode.SUCCESS.getInfo())
+                    .data(Boolean.TRUE)
+                    .build();
+        }
+        return Response.<Boolean>builder()
+                    .code(ResponseCode.SUCCESS.getCode())
+                    .info(ResponseCode.SUCCESS.getInfo())
+                    .data(Boolean.FALSE)
+                    .build();
+    }
 }

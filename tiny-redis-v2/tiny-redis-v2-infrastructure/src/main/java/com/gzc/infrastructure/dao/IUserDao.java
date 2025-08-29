@@ -8,6 +8,6 @@ public interface IUserDao {
 
     User queryUserByPhone(String phone);
 
-    void createUser(String phone);
+    void createUser(User user);
 
 }
