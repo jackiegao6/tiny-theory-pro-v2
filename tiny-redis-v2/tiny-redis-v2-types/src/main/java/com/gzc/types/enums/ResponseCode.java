@@ -15,6 +15,7 @@ public enum ResponseCode {
     ILLEGAL_PHONE("0003", "手机号格式错误"),
     ILLEGAL_CODE("0004", "手机号格式错误"),
     WRONG_PASSWORD("0005", "密码错误"),
+    SHOP_NOT_EXIST("0006", "店铺不存在"),
     ;
 
     private String code;

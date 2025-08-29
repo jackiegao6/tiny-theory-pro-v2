@@ -24,6 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
         excludeUrlList.add("/api/v1/hmdp/login/send-code");
         excludeUrlList.add("/api/v1/hmdp/login/login");
         excludeUrlList.add("/api/v1/hmdp/login/check-login");
+        excludeUrlList.add("/api/v1/hmdp/shop/**");
 
         registry.addInterceptor(refreshTokenInterceptor)
                 .addPathPatterns("/**")
