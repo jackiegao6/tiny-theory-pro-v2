@@ -40,6 +40,10 @@
             <groupId>com.gzc</groupId>
             <artifactId>tiny-redis-v2-domain</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.gzc</groupId>
+            <artifactId>tiny-redis-v2-infrastructure</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -62,9 +62,9 @@
         <dependencies>
 
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-redis</artifactId>
-                <version>3.5.0</version>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>3.26.0</version>
             </dependency>
 
             <dependency>

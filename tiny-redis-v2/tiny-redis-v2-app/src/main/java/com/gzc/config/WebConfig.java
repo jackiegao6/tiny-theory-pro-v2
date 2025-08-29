@@ -19,7 +19,8 @@ public class WebConfig implements WebMvcConfigurer {
 
         ArrayList<String> excludeUrlList = new ArrayList<>();
         excludeUrlList.add("/api/v1/hmdp/login/send-code");
-        excludeUrlList.add( "/api/v1/hmdp/login/login");
+        excludeUrlList.add("/api/v1/hmdp/login/login");
+        excludeUrlList.add("/api/v1/hmdp/login/check-login");
 
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**")

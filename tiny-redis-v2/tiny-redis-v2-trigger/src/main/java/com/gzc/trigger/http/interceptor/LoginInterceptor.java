@@ -1,27 +1,37 @@
 package com.gzc.trigger.http.interceptor;
 
+import cn.hutool.core.util.StrUtil;
 import com.gzc.domain.login.model.entity.LoginInfoEntity;
+import com.gzc.infrastructure.redis.IRedisService;
+import com.gzc.types.common.Constants;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @Component
+@RequiredArgsConstructor
 public class LoginInterceptor implements HandlerInterceptor {
+
+    private final IRedisService redisService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        HttpSession session = request.getSession();
-        Object loginInfo = session.getAttribute("loginInfo");
-        if (null == loginInfo){
+        String token = request.getHeader("authorization");
+        String phone = redisService.getValue(Constants.USER_TOKEN + token);
+        if (StrUtil.isBlank(phone)){
             response.setStatus(401);
             return false;
         }
-        UserHolder.setLoginInfoEntity((LoginInfoEntity) loginInfo);
 
+        LoginInfoEntity loginInfo = LoginInfoEntity.builder()
+                .phone(phone)
+                .build();
+        UserHolder.setLoginInfoEntity(loginInfo);
+        redisService.flushKey(Constants.USER_TOKEN + token, 1800000);// 0.5 h
         return true;
     }
 

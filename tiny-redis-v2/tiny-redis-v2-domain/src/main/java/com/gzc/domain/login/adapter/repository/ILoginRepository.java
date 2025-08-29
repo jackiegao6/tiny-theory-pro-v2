@@ -8,4 +8,11 @@ public interface ILoginRepository {
 
     void createUser(String phone);
 
+    void saveCode2Redis(String phone, String code);
+
+    boolean isEqualCode(String phone, String code);
+
+    void saveUser2Redis(String phone);
+
+
 }

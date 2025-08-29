@@ -3,6 +3,7 @@ package com.gzc.domain.login.service;
 
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.gzc.domain.login.adapter.repository.ILoginRepository;
 import com.gzc.domain.login.model.entity.LoginInfoEntity;
 import com.gzc.types.enums.ResponseCode;
@@ -29,6 +30,8 @@ public class LoginService implements ILoginService{
         }
         // 2. 生成验证码
         String code = RandomUtil.randomNumbers(4);
+        // 2.1 保存验证码到redis
+        loginRepository.saveCode2Redis(phone, code);
         // 3. 模拟发送验证码
         log.info("发送验证码成功 phone: {} code: {}", phone, code);
 
@@ -46,12 +49,14 @@ public class LoginService implements ILoginService{
             throw new AppException(ResponseCode.ILLEGAL_PHONE.getCode(), ResponseCode.ILLEGAL_PHONE.getInfo());
         }
 
-        // 2. 校验验证码
-        String code = loginInfoEntity.getCode();
-        boolean isCode = true;
-        if (!isCode){
-            log.info("验证码错误");
-            throw new AppException(ResponseCode.ILLEGAL_CODE.getCode(), ResponseCode.ILLEGAL_CODE.getInfo());
+        // 验证码登录
+        if (StrUtil.isBlank(loginInfoEntity.getPassword())){
+            // 2. 校验验证码
+            boolean isCode = loginRepository.isEqualCode(loginInfoEntity.getPhone() , loginInfoEntity.getCode());
+            if (!isCode){
+                log.info("验证码错误");
+                throw new AppException(ResponseCode.ILLEGAL_CODE.getCode(), ResponseCode.ILLEGAL_CODE.getInfo());
+            }
         }
 
         // 3. 查询用户是否存在
@@ -66,5 +71,8 @@ public class LoginService implements ILoginService{
             // 3.2 用户不存在
             loginRepository.createUser(phone);
         }
+
+        // 4. 保存用户信息到redis中
+        loginRepository.saveUser2Redis(phone);
     }
 }
