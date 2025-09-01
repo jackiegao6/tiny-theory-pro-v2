@@ -29,11 +29,18 @@ public class ShopRepository implements IShopRepository {
         if (StrUtil.isNotBlank(shopInfoEntityJson)){
             return JSON.parseObject(shopInfoEntityJson, ShopInfoEntity.class);
         }
+        if (null != shopInfoEntityJson){
+            return null;
+        }
 
         Shop shopRes = shopDao.queryShopById(id);
-        if (null == shopRes) return null;
+        if (null == shopRes) {
+            redisService.setValue(Constants.SHOP_KEY + id, "", 60 * 1000);
+            return null;
+        }
 
         ShopInfoEntity shopInfoEntity = ShopInfoEntity.builder()
+                .id(id)
                 .name(shopRes.getName())
                 .typeId(shopRes.getTypeId())
                 .images(shopRes.getImages())
