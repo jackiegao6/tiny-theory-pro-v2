@@ -18,7 +18,7 @@ public class ShopController {
 
     private final IShopService shopService;
 
-    @RequestMapping(value = "/shop/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Response<ShopInfoEntity> queryShopById(@PathVariable("id") Long id){
 
         ShopInfoEntity shopInfoEntity = shopService.queryShopById(id);
@@ -33,6 +33,23 @@ public class ShopController {
                 .code(ResponseCode.SUCCESS.getCode())
                 .info(ResponseCode.SUCCESS.getInfo())
                 .data(shopInfoEntity)
+                .build();
+    }
+
+    @RequestMapping(value = "/update-shop", method = RequestMethod.PUT)
+    public Response<Boolean> updateShop(@RequestBody ShopInfoEntity shopInfoEntity){
+        int res = shopService.updateShop(shopInfoEntity);
+        if (1 != res){
+            return Response.<Boolean>builder()
+                    .code(ResponseCode.SHOP_UPDATE_ERROR.getCode())
+                    .info(ResponseCode.SHOP_UPDATE_ERROR.getInfo())
+                    .data(Boolean.FALSE)
+                    .build();
+        }
+        return Response.<Boolean>builder()
+                .code(ResponseCode.SUCCESS.getCode())
+                .info(ResponseCode.SUCCESS.getInfo())
+                .data(Boolean.TRUE)
                 .build();
     }
 

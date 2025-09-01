@@ -8,5 +8,6 @@ public interface IShopDao {
 
     Shop queryShopById(Long id);
 
+    int updateShop(Shop shopReq);
 
 }

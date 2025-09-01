@@ -6,5 +6,6 @@ public interface IShopRepository {
 
     ShopInfoEntity queryShopById(Long id);
 
+    int updateShop(ShopInfoEntity shopInfoEntity);
 
 }

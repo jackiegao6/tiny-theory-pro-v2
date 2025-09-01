@@ -19,4 +19,9 @@ public class ShopService implements IShopService{
 
         return shopRepository.queryShopById(id);
     }
+
+    @Override
+    public int updateShop(ShopInfoEntity shopInfoEntity) {
+        return shopRepository.updateShop(shopInfoEntity);
+    }
 }

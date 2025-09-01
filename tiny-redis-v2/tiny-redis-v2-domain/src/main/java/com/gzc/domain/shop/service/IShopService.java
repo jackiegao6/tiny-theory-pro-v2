@@ -6,6 +6,6 @@ public interface IShopService {
 
     ShopInfoEntity queryShopById(Long id);
 
-
+    int updateShop(ShopInfoEntity shopInfoEntity);
 
 }

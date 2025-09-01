@@ -11,6 +11,7 @@ import com.gzc.types.common.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Slf4j
@@ -46,7 +47,34 @@ public class ShopRepository implements IShopRepository {
                 .score(shopRes.getScore())
                 .openHours(shopRes.getOpenHours())
                 .build();
-        redisService.setValue(Constants.SHOP_KEY + id, shopInfoEntity);
+        redisService.setValue(Constants.SHOP_KEY + id, JSON.toJSONString(shopInfoEntity), 30 * 60 * 1000); // 30 min
         return shopInfoEntity;
+    }
+
+    @Transactional
+    @Override
+    public int updateShop(ShopInfoEntity shopInfoEntity) {
+
+        // 1. 先更新数据库
+        Shop shopReq = Shop.builder()
+                .id(shopInfoEntity.getId())
+                .name(shopInfoEntity.getName())
+                .typeId(shopInfoEntity.getTypeId())
+                .images(shopInfoEntity.getImages())
+                .area(shopInfoEntity.getArea())
+                .address(shopInfoEntity.getAddress())
+                .x(shopInfoEntity.getX())
+                .y(shopInfoEntity.getY())
+                .avgPrice(shopInfoEntity.getAvgPrice())
+                .sold(shopInfoEntity.getSold())
+                .comments(shopInfoEntity.getComments())
+                .score(shopInfoEntity.getScore())
+                .openHours(shopInfoEntity.getOpenHours())
+                .build();
+        int res = shopDao.updateShop(shopReq);
+        Long id = shopInfoEntity.getId();
+        // 2. 再删除缓存
+        redisService.remove(Constants.SHOP_KEY + id);
+        return res;
     }
 }

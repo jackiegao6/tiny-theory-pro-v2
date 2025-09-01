@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ShopInfoEntity {
 
+    private Long id;
+
     private String name;
 
     private long typeId;

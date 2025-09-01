@@ -13,9 +13,11 @@ import java.util.Date;
 @Builder
 public class Shop {
 
+    private Long id;
+
     private String name;
 
-    private long typeId;
+    private Long typeId;
 
     private String images;
 

@@ -21,12 +21,21 @@
     </resultMap>
 
     <select id="queryShopById" parameterType="java.lang.Long" resultMap="dataMap">
-        select name, type_id,images,area,
+        select id, name, type_id,images,area,
             address,x,y,avg_price,sold,
             comments,score,open_hours
         from tb_shop
         where id = #{id}
     </select>
+
+    <update id="updateShop" parameterType="com.gzc.infrastructure.dao.po.Shop">
+        update tb_shop
+        set name = #{name}, type_id = #{typeId}, images = #{images}, area = #{area}, address = #{address},
+            x = #{x}, y = #{y}, avg_price = #{avgPrice}, sold = #{sold}, comments = #{comments},
+            score = #{score}, open_hours = #{openHours}, update_time = now()
+        where
+            id = #{id}
+    </update>
 
 
 
